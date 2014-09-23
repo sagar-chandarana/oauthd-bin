@@ -79,7 +79,7 @@ exports.setup = function(callback) {
     directory: __dirname + '/app',
     maxAge: 1
   }));
-  this.server.get(this.config.base_api + '/me', this.auth.needed, function(req, res, next) {
+  this.server.get(this.config.base_api + '/me', function(req, res, next) {
     return db_getApps(function(e, appkeys) {
       if (e) {
         return next(e);

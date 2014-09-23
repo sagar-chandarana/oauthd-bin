@@ -18,7 +18,7 @@ apiRequest = function($http, $rootScope) {
       opts.headers = {};
     }
     if ($rootScope.accessToken) {
-      //opts.headers.Authorization = "Bearer " + $rootScope.accessToken;
+      //opts.headers.Authorization = "Bearer " + $rootScope.accessToken ;
     }
     if (opts.method === "POST" || opts.method === "PUT") {
       opts.headers['Content-Type'] = 'application/json';
