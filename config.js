@@ -5,7 +5,7 @@ module.exports = {
 	port: 6284,
 	// bind: "127.0.0.1",					// bind to an ip
 
-	debug: false,							// add stack trace & infos in errors
+	debug: true,							// add stack trace & infos in errors
 
 	/* uncomment to use ssl
 	ssl: {

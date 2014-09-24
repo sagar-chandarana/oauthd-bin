@@ -480,17 +480,6 @@ hooks.config.push(function() {
         }), function(error) {});
       }
     };
-    $scope.resetKeys = function(key) {
-      if (confirm('Are you sure you want to reset your Keys? You\'ll need to update the keys in your application.')) {
-        return AppService.resetKey(key, function(data) {
-          var app;
-          app = $rootScope.apps.find(function(n) {
-            return n.key === key;
-          });
-          return app.key = data.data.key;
-        });
-      }
-    };
     $scope.keySaved = false;
     $scope.editKeyset = function(app, provider) {
       var i, keys, response_type, select, selector;

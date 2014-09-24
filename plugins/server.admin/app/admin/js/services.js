@@ -61,6 +61,12 @@ hooks.config.push(function() {
   });
   app.factory('AppService', function($http, $rootScope) {
     var api;
+    var uuid = function (){
+      return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+      });
+    }
     api = apiRequest($http, $rootScope);
     return {
       get: function(key, success, error) {
@@ -70,7 +76,8 @@ hooks.config.push(function() {
         return api('apps', success, error, {
           data: {
             name: app.name,
-            domains: app.domains
+            domains: app.domains,
+            secret: uuid() + '-isARandomStringDefinedAt-plugins-server.admin-app-admin-js-services.js-line-80'
           }
         });
       },
@@ -85,11 +92,6 @@ hooks.config.push(function() {
       remove: function(key, success, error) {
         return api('apps/' + key, success, error, {
           method: 'delete'
-        });
-      },
-      resetKey: function(key, success, error) {
-        return api('apps/' + key + '/reset', success, error, {
-          method: 'post'
         });
       }
     };
