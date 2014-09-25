@@ -26,9 +26,17 @@ apiRequest = function($http, $rootScope) {
     req = $http(opts);
     if (success) {
       req.success(success);
+    } else {
+      req.error(function(data) {
+      	console.log(data)
+      });
     }
     if (error) {
       req.error(error);
+    } else {
+      req.error(function(e) {
+      	console.error(e)
+      });
     }
   };
 };
@@ -77,7 +85,7 @@ hooks.config.push(function() {
           data: {
             name: app.name,
             domains: app.domains,
-            secret: uuid() + '-isARandomStringDefinedAt-plugins-server.admin-app-admin-js-services.js-line-80'
+            secret: uuid()
           }
         });
       },
