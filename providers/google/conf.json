@@ -21,6 +21,9 @@
 			]
 		},
 		"request": "https://www.googleapis.com",
+		"me": {
+			"url": "/plus/v1/people/me"
+		},
 		"refresh": "/token",
 		"revoke": {
 			"url": "/revoke",

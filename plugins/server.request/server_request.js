@@ -8,6 +8,8 @@ Url = require('url');
 
 restify = require('restify');
 
+zlib = require('zlib');
+
 oauth = {
   oauth1: require('../../lib/oauth1'),
   oauth2: require('../../lib/oauth2')
@@ -19,7 +21,7 @@ exports.setup = function(callback) {
   fixUrl = function(ref) {
     return ref.replace(/^([a-zA-Z\-_]+:\/)([^\/])/, '$1/$2');
   };
-  doRequest = function(req, res, next) {
+  doRequest = function(req, res, next, isMe) {
     var cb, oauthio, origin, ref, urlinfos;
     cb = _this.server.send(res, next);
     oauthio = req.headers.oauthio;
@@ -72,6 +74,10 @@ exports.setup = function(callback) {
           oauthv = 'oauth1';
         }
       }
+      if(isMe) {
+      	req.params[1] = provider[oauthv].me.url;
+      }
+      console.log('params', req.params);
       oa = new oauth[oauthv];
       parameters.oauthio = oauthio;
       return oa.request(provider, parameters, req, function(err, api_request) {
@@ -82,8 +88,13 @@ exports.setup = function(callback) {
           dest.setHeader('Access-Control-Allow-Origin', origin);
           return dest.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
         };
-        api_request.pipe(res);
+        var body='';
+        api_request.on('data', function(chunk) {
+           body += chunk;
+        });
+        //api_request.pipe(res);
         return api_request.once('end', function() {
+          console.log(body);
           return next(false);
         });
       });
@@ -114,5 +125,8 @@ exports.setup = function(callback) {
   this.server.put(new RegExp('^' + this.config.base + '/request/([a-zA-Z0-9_\\.~-]+)/(.*)$'), doRequest);
   this.server.patch(new RegExp('^' + this.config.base + '/request/([a-zA-Z0-9_\\.~-]+)/(.*)$'), doRequest);
   this.server.del(new RegExp('^' + this.config.base + '/request/([a-zA-Z0-9_\\.~-]+)/(.*)$'), doRequest);
+  this.server.get(this.config.base + '/auth/:0/me', function() {
+  	doRequest(arguments[0], arguments[1], arguments[2], true);
+  });
   return callback();
 };
