@@ -10,6 +10,21 @@ restify = require('restify');
 
 zlib = require('zlib');
 
+accessObjByString = function(o, s) {
+	s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+	s = s.replace(/^\./, '');           // strip a leading dot
+	var a = s.split('.');
+	while (a.length) {
+		var n = a.shift();
+		if (n in o) {
+		    o = o[n];
+		} else {
+		    return;
+		}
+	}
+	return o;
+}
+
 oauth = {
   oauth1: require('../../lib/oauth1'),
   oauth2: require('../../lib/oauth2')
@@ -92,9 +107,20 @@ exports.setup = function(callback) {
         api_request.on('data', function(chunk) {
            body += chunk;
         });
-        //api_request.pipe(res);
+        if(!isMe) {
+        	api_request.pipe(res);	
+        }
         return api_request.once('end', function() {
-          console.log(body);
+          if(isMe) {
+		      var providerMe = JSON.parse(body);
+		      var me = {};
+		      //streamlining 'me' object
+		      for(var prop in provider[oauthv].me.format) {
+		      	me[prop] = accessObjByString(providerMe, provider[oauthv].me.format[prop]);
+		      }
+		      me.raw = providerMe;
+		      res.send(me);
+          }
           return next(false);
         });
       });

@@ -22,7 +22,14 @@
 		},
 		"request": "https://www.googleapis.com",
 		"me": {
-			"url": "/plus/v1/people/me"
+			"url": "/plus/v1/people/me",
+			"format": {
+				"firstname": "name.givenName",
+				"uid": "id",
+				"lastname": "name.familyName",
+				"email": "emails[0].value",
+				"avatar": "image.url"
+			}
 		},
 		"refresh": "/token",
 		"revoke": {
