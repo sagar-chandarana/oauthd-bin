@@ -10,6 +10,16 @@
 			"query": {
 				"state": "{{state}}"
 			}
+		},
+		"me": {
+			"url": "/v1/people/~:(picture-url,first-name,last-name,id,email-address)?format=json",
+			"format": {
+				"firstname": "firstName",
+				"uid": "id",
+				"lastname": "lastName",
+				"email": "emailAddress",
+				"avatar": "pictureUrl"
+			}
 		}
 	},
 	"href": {
