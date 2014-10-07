@@ -17,6 +17,15 @@
 			"query": {
 				"access_token": "{{token}}"
 			}
+		},
+		"me": {
+			"url": "1/account/info",
+			"format": {
+				"firstname": "first_name",
+				"uid": "uid",
+				"lastname": "last_name",
+				"email": "email"
+			}
 		}
 	},
 	"href": {
