@@ -92,7 +92,6 @@ exports.setup = function(callback) {
       if(isMe) {
       	req.params[1] = provider[oauthv].me.url;
       }
-      console.log('params', req.params);
       oa = new oauth[oauthv];
       parameters.oauthio = oauthio;
       return oa.request(provider, parameters, req, function(err, api_request) {
@@ -103,23 +102,32 @@ exports.setup = function(callback) {
           dest.setHeader('Access-Control-Allow-Origin', origin);
           return dest.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
         };
-        var body='';
-        api_request.on('data', function(chunk) {
-           body += chunk;
-        });
         if(!isMe) {
         	api_request.pipe(res);	
+        } else {
+          var body='';
+          api_request.on('data', function(chunk) {
+             body += chunk;
+          });
         }
         return api_request.once('end', function() {
           if(isMe) {
-		      var providerMe = JSON.parse(body);
-		      var me = {};
-		      //streamlining 'me' object
-		      for(var prop in provider[oauthv].me.format) {
-		      	me[prop] = accessObjByString(providerMe, provider[oauthv].me.format[prop]);
-		      }
-		      me.raw = providerMe;
-		      res.send(me);
+            try {
+              var providerMe = JSON.parse(body);
+              var me = {};
+              //streamlining 'me' object
+              for(var prop in provider[oauthv].me.format) {
+                me[prop] = accessObjByString(providerMe, provider[oauthv].me.format[prop]);
+              }
+              me.raw = providerMe;
+              if(me.uid) {
+                res.send(me);
+              } else {
+                res.send(500, JSON.stringify({message: "Error parsing response from provider/user's id not present in the responses", body: body}));
+              }
+            } catch (e) {
+              res.send(500, JSON.stringify({message: "Error parsing response from provider", error: e.toString(), body: body}));
+            }
           }
           return next(false);
         });
