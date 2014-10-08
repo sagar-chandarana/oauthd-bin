@@ -27,6 +27,15 @@
 				"access_token": "{{token}}"
 			}
 		},
+		"me": {
+			"url": "/me",
+			"format": {
+				"firstname": "first_name",
+				"uid": "id",
+				"lastname": "last_name",
+				"email": "email"
+			}
+		},
 		"parameters": {
 			"client_secret": "string",
 			"client_id": "string",
