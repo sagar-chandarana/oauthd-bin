@@ -11,8 +11,13 @@
 				"state": "{{state}}"
 			}
 		},
+		"request": {
+			"headers": {
+				"x-li-format": "json"
+			}
+		},
 		"me": {
-			"url": "/v1/people/~:(picture-url,first-name,last-name,id,email-address)?format=json",
+			"url": "/v1/people/~:(picture-url,first-name,last-name,id,email-address)",
 			"format": {
 				"firstname": "firstName",
 				"uid": "id",
