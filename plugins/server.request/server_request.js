@@ -91,6 +91,8 @@ exports.setup = function(callback) {
       }
       if(isMe) {
       	req.params[1] = provider[oauthv].me.url;
+        req.headers.accept = "application/json";
+        delete req.headers['accept-encoding'];
       }
       oa = new oauth[oauthv];
       parameters.oauthio = oauthio;
@@ -98,11 +100,11 @@ exports.setup = function(callback) {
         if (err) {
           return cb(err);
         }
-        api_request.pipefilter = function(response, dest) {
-          dest.setHeader('Access-Control-Allow-Origin', origin);
-          return dest.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-        };
         if(!isMe) {
+          api_request.pipefilter = function(response, dest) {
+            dest.setHeader('Access-Control-Allow-Origin', origin);
+            return dest.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+          };
         	api_request.pipe(res);	
         } else {
           var body='';
