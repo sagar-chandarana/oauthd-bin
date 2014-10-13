@@ -1,12 +1,12 @@
 {
 	"name": "Linkedin",
     "desc": "LinkedIn is the worlds largest business social networking hub. Launched in 2003, LinkedIn has millions of users and is implemented in over 200 countries. One purpose of the site is to allow registered users to maintain a list of contact details of people with whom they have some level of relationship, called Connections. Users can invite anyone (whether a site user or not) to become a connection. LinkedIn actually provides 2 APIs:\n-The JavaScript API is a rich client library enabling you to build dynamic applications in the web browser. Use OAuth 2 to easily authorize users via the \"Sign In with LinkedIn\" button, access LinkedIn data with native objects, and interact with Plugins.\n-The REST API provides a simple, consistent representation of people, companies, jobs, and the interactions and relationships between them. Our query language lets you read data in XML and JSON at the granularity and aggregation that you choose. Use OAuth 1.0a to authorize users and begin making REST API calls using any programming language.",
-	"url": "https://api.linkedin.com/uas/oauth",
+	"url": "https://api.linkedin.com/uas/oauth2",
 	"oauth1": {
-		"request_token": "/requestToken",
-		"access_token": "/accessToken",
+		"request_token": "https://api.linkedin.com/uas/oauth/requestToken",
+		"access_token": "https://api.linkedin.com/uas/oauth/accessToken",
 		"authorize": {
-			"url": "/authenticate",
+			"url": "https://api.linkedin.com/uas/oauth/authenticate",
 			"query": {
 				"state": "{{state}}"
 			}
@@ -27,6 +27,28 @@
 			}
 		}
 	},
+    "oauth2": {
+          "authorize": "/authorization",
+          "access_token": "/accessToken",
+          "request": {
+              "query": {
+                  "oauth2_access_token": "{{token}}"
+              },
+              "headers": {
+                  "x-li-format": "json"
+              }
+          },
+          "me": {
+			"url": "/v1/people/~:(picture-url,first-name,last-name,id,email-address)",
+			"format": {
+				"firstname": "firstName",
+				"uid": "id",
+				"lastname": "lastName",
+				"email": "emailAddress",
+				"avatar": "pictureUrl"
+			}
+		  }
+      },
 	"href": {
 		"keys": "https://www.linkedin.com/secure/developer?newapp=",
 		"docs": "https://developer.linkedin.com/documents/linkedin-api-resource-map",
