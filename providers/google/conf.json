@@ -28,7 +28,8 @@
 				"uid": "id",
 				"lastname": "name.familyName",
 				"email": "emails[0].value",
-				"avatar": "image.url"
+				"avatar": "image.url",
+                "name": "displayName"
 			}
 		},
 		"refresh": "/token",

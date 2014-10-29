@@ -24,7 +24,8 @@
 				"firstname": "first_name",
 				"uid": "uid",
 				"lastname": "last_name",
-				"email": "email"
+				"email": "email",
+                "name": "display_name"
 			}
 		}
 	},

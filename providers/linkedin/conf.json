@@ -17,13 +17,14 @@
 			}
 		},
 		"me": {
-			"url": "/v1/people/~:(picture-url,first-name,last-name,id,email-address)",
+			"url": "/v1/people/~:(picture-url,first-name,last-name,id,email-address,formatted-name)",
 			"format": {
 				"firstname": "firstName",
 				"uid": "id",
 				"lastname": "lastName",
 				"email": "emailAddress",
-				"avatar": "pictureUrl"
+				"avatar": "pictureUrl",
+                "name": "formattedName"
 			}
 		}
 	},

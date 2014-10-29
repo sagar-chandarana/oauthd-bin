@@ -33,7 +33,8 @@
 				"firstname": "first_name",
 				"uid": "id",
 				"lastname": "last_name",
-				"email": "email"
+				"email": "email",
+                "name": "name"
 			}
 		},
 		"parameters": {

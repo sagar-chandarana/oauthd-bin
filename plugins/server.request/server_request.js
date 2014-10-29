@@ -25,6 +25,23 @@ accessObjByString = function(o, s) {
 	return o;
 }
 
+// gets firstname, lastname outof fullname or vice versa
+usernameCorrection = function(me) {
+  if(me.firstname) {
+    if(me.name) {
+      return me;
+    } else {
+      me.name = me.firstname + me.lastname ? (' ' + me.lastname): ''; 
+    }
+  } else if(me.name) {
+    var splitName = me.name.split(" ");
+    me.firstname = splitName[0];
+    me.lastname = splitName[1];
+  }
+  
+  return me;
+}
+
 oauth = {
   oauth1: require('../../lib/oauth1'),
   oauth2: require('../../lib/oauth2')
@@ -122,8 +139,9 @@ exports.setup = function(callback) {
                 me[prop] = accessObjByString(providerMe, provider[oauthv].me.format[prop]);
               }
               me.raw = providerMe;
+              
               if(me.uid) {
-                res.send(me);
+                res.send(usernameCorrection(me));
               } else {
                 res.send(500, JSON.stringify({message: "Error parsing response from provider/user's id not present in the responses", body: body}));
               }
